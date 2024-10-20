@@ -26,4 +26,6 @@ The templates to create Minecraft mods with [Architectury](https://github.com/ar
 
 5. Edit `gradle.properties`, `setting.gradle` (when there is a comment containing `Customize`)
 
+6. Replace everything containing `example` with your mod information.
+
 6. Start modding with Architectury!
