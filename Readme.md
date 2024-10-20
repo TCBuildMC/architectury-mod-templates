@@ -13,6 +13,8 @@ The templates to create Minecraft mods with [Architectury](https://github.com/ar
 | ----------------- | ----------------------- | ---------- | --------- |
 | 1.20~1.20.1       | Forge, Fabric           | 1.20       | ✅         |
 | 1.19~1.19.2       | Forge, Fabric           | 1.19       | ✅         |
+| 1.18.x            | Forge, Fabric           | 1.18       | ✅         |
+| 1.16.4~1.16.5     | Forge, Fabric           | 1.16       | ✅         |
 
 ## Usage
 
