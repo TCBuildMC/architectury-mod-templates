@@ -63,10 +63,10 @@ allprojects {
     apply plugin: "maven-publish"
 
     base {
-        archivesName = rootProject.archives_base_name + "-" + project.name + "+" + rootProject.minecraft_version
+        archivesName = rootProject.archives_base_name + "-" + project.name
     }
 
-    version = rootProject.mod_version
+    version = rootProject.minecraft_version + "-" + rootProject.mod_version
     group = rootProject.maven_group
 
     repositories {
@@ -100,25 +100,25 @@ allprojects {
 
 forgix {
     group = rootProject.maven_group
-    mergedJarName = rootProject.archives_base_name + "+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar" // (Required Value)
+    mergedJarName = rootProject.archives_base_name + "-" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar" // (Required Value)
     outputDir = "build/libs/merged"
 
     forge {
         projectName = "forge"
-        jarLocation = "build/libs/" + rootProject.archives_base_name + "-forge+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
+        jarLocation = "build/libs/" + rootProject.archives_base_name + "-forge-" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
 
         mixin "examplemod.mixins.json"
     }
 
 //    neoforge {
 //        projectName = "neoforge"
-//        jarLocation = "build/libs/" + rootProject.archives_base_name + "-neoforge+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
+//        jarLocation = "build/libs/" + rootProject.archives_base_name + "-neoforge-" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
 //
 //        mixin "examplemod.mixins.json"
 //    }
 
     fabric {
         projectName = "fabric"
-        jarLocation = "build/libs/" + rootProject.archives_base_name + "-fabric+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
+        jarLocation = "build/libs/" + rootProject.archives_base_name + "-fabric-" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
     }
 }
