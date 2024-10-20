@@ -2,7 +2,7 @@ import net.fabricmc.loom.task.RemapJarTask
 
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
     id "io.github.pacifistmc.forgix" version "1.2.9"
 }
 
@@ -16,16 +16,9 @@ subprojects {
     loom {
         setEnableTransitiveAccessWideners true
         setEnableModProvidedJavadoc true
-        silentMojangMappingsLicense()
     }
 
     repositories {
-        maven {
-            url = "https://maven.quiltmc.org/repository/release/"
-        }
-        maven {
-            url = "https://maven.parchmentmc.org/"
-        }
         maven {
             url = "https://maven.architectury.dev/"
         }
@@ -48,11 +41,9 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.layered {
-            it.mappings("org.quiltmc:quilt-mappings:${rootProject.quilt_mappings_version}:intermediary-v2")
-            it.parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_version}@zip")
-            it.officialMojangMappings { nameSyntheticMembers = false }
-        }
+        mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}:v2"
+
+        implementation "com.google.code.findbugs:jsr305:${rootProject.jsr305_version}"
         annotationProcessor(compileOnly("org.projectlombok:lombok:${rootProject.lombok_version}"))
     }
 
@@ -108,16 +99,13 @@ allprojects {
 }
 
 forgix {
-    group = rootProject.maven_group // (Required Value)
+    group = rootProject.maven_group
     mergedJarName = rootProject.archives_base_name + "+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar" // (Required Value)
     outputDir = "build/libs/merged"
 
     forge {
         projectName = "forge"
         jarLocation = "build/libs/" + rootProject.archives_base_name + "-forge+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
-
-//        additionalRelocate "org.my.lib" "forge.org.my.lib"
-//        additionalRelocate "org.my.lib.another" "forge.org.my.lib.another"
 
         mixin "examplemod.mixins.json"
     }
@@ -126,19 +114,11 @@ forgix {
 //        projectName = "neoforge"
 //        jarLocation = "build/libs/" + rootProject.archives_base_name + "-neoforge+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
 //
-////        additionalRelocate "org.my.lib" "neoforge.org.my.lib"
-////        additionalRelocate "org.my.lib.another" "neoforge.org.my.lib.another"
-//
 //        mixin "examplemod.mixins.json"
 //    }
 
     fabric {
         projectName = "fabric"
         jarLocation = "build/libs/" + rootProject.archives_base_name + "-fabric+" + rootProject.minecraft_version + "-" + rootProject.mod_version + ".jar"
-
-//        additionalRelocate "org.my.lib" "fabric.org.my.lib"
-//        additionalRelocate "org.my.lib.another" "fabric.org.my.lib.another"
     }
-
-//    removeDuplicate "org.example.mod.core"
 }
