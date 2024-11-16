@@ -7,6 +7,14 @@ architectury {
     forge()
 }
 
+def generatedResources = file("src/generated")
+
+sourceSets {
+    main {
+        resources.srcDir generatedResources
+    }
+}
+
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
@@ -15,6 +23,15 @@ loom {
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
         mixinConfig "examplemod.mixins.json"
+    }
+
+    runs {
+        data {
+            data()
+            programArgs "--all", "--mod", "blockylib"
+            programArgs "--output", generatedResources.absolutePath
+//            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+        }
     }
 }
 
