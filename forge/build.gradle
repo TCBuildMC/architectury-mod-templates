@@ -7,6 +7,14 @@ architectury {
     forge()
 }
 
+def generatedResources = file("src/generated")
+
+sourceSets {
+    main {
+        resources.srcDir generatedResources
+    }
+}
+
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
@@ -15,6 +23,15 @@ loom {
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
 
         mixinConfig "examplemod.mixins.json"
+    }
+
+    runs {
+        data {
+            data()
+            programArgs "--all", "--mod", "blockylib"
+            programArgs "--output", generatedResources.absolutePath
+//            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+        }
     }
 }
 
@@ -27,7 +44,7 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.forge_version}"
+    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
     // Remove the next line if you don't want to depend on the API
     modImplementation "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
@@ -74,7 +91,7 @@ components.java {
 publishing {
     publications {
         mavenForge(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name + "+" + rootProject.minecraft_version
+            artifactId = rootProject.archives_base_name + "-" + project.name
             from components.java
         }
     }

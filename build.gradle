@@ -1,5 +1,3 @@
-import net.fabricmc.loom.task.RemapJarTask
-
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
@@ -32,6 +30,12 @@ subprojects {
             }
         }
         maven {
+            url = "https://maven.ladysnake.org/releases/"
+        }
+        maven {
+            url = "https://maven.terraformersmc.com/releases/"
+        }
+        maven {
             url = "https://jitpack.io/"
             content {
                 includeGroupAndSubgroups "com.github"
@@ -46,15 +50,6 @@ subprojects {
         implementation "com.google.code.findbugs:jsr305:${rootProject.jsr305_version}"
         annotationProcessor(compileOnly("org.projectlombok:lombok:${rootProject.lombok_version}"))
     }
-
-    tasks.register('remapSlimJar', RemapJarTask) {
-        dependsOn jar
-        inputFile.set jar.archiveFile
-        addNestedDependencies = false
-        archiveClassifier.set "slim"
-    }
-
-    tasks.remapJar.dependsOn remapSlimJar
 }
 
 allprojects {
@@ -81,6 +76,7 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
         options.release = 17
+        options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
     }
 
     compileJava.dependsOn clean
